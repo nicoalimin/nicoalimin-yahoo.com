@@ -20,9 +20,16 @@ func loadRoutes(r *mux.Router) {
 
 	coreWeather := core.ServiceWeather{}
 	handlerHealth := handler.Health{}
+	handlerWeather := handler.Weather{
+		Weather: &coreWeather,
+	}
 
-	handlerRouter := v1Router.PathPrefix("/health").Subrouter()
-	handlerRouter.HandleFunc("", handlerHealth.HealthCheck).Methods(http.MethodGet)
+	healthRouter := v1Router.PathPrefix("/health").Subrouter()
+	healthRouter.HandleFunc("", handlerHealth.HealthCheck).Methods(http.MethodGet)
+
+	weatherRouter := v1Router.PathPrefix("/weather").Subrouter()
+	weatherRouter.HandleFunc("", handlerWeather.GetWeatherByCity).Methods(http.MethodGet)
+
 }
 
 // Execute runs a HTTP server that contains the backend for the ea game review app
