@@ -4,12 +4,21 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/nicoalimin/weathering/server/pkg/conf"
 	"github.com/nicoalimin/weathering/server/pkg/core"
 
 	"github.com/nicoalimin/weathering/server/pkg/handler"
 
 	"github.com/gorilla/mux"
 )
+
+var (
+	config conf.Conf
+)
+
+func init() {
+	config = conf.NewConf()
+}
 
 const (
 	v1Prefix = "/v1" // Version of the API
@@ -18,9 +27,11 @@ const (
 func loadRoutes(r *mux.Router) {
 	v1Router := r.PathPrefix(v1Prefix).Subrouter()
 
+	hClient := &http.Client{}
 	coreWeather := core.ServiceWeather{
+		HTTPClient:     hClient,
 		WeathersAPIURL: "http://api.openweathermap.org/data/2.5/weather",
-		AccessKey:      "df04f1248445346d798760340bd65a74",
+		AccessKey:      config.OpenWeatherKey,
 	}
 	handlerHealth := handler.Health{}
 	handlerWeather := handler.Weather{
@@ -45,13 +56,12 @@ func Execute() {
 	loadRoutes(router)
 
 	// initialize http server configs
-	port := "3031"
 	server := http.Server{
-		Addr:    fmt.Sprintf(":%s", port),
+		Addr:    fmt.Sprintf(":%s", config.BackendPort),
 		Handler: router,
 	}
 
 	// start http server
-	fmt.Printf("HTTP Server listening on port: %s\n", port)
+	fmt.Printf("HTTP Server listening on port: %s\n", config.BackendPort)
 	server.ListenAndServe()
 }
