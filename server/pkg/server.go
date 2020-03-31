@@ -4,10 +4,22 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/nicoalimin/weathering/server/pkg/handler"
+
 	"github.com/gorilla/mux"
 )
 
+const (
+	v1Prefix = "/v1" // Version of the API
+)
+
 func loadRoutes(r *mux.Router) {
+	v1Router := r.PathPrefix(v1Prefix).Subrouter()
+
+	handlerHealth := handler.Health{}
+
+	handlerRouter := v1Router.PathPrefix("/health").Subrouter()
+	handlerRouter.HandleFunc("", handlerHealth.HealthCheck).Methods(http.MethodGet)
 }
 
 // Execute runs a HTTP server that contains the backend for the ea game review app
