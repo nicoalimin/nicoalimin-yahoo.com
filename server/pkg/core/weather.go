@@ -19,6 +19,9 @@ type ServiceWeather struct {
 
 // GetWeatherByCity returns a weathers summary for a given city
 func (sw *ServiceWeather) GetWeatherByCity(city string) (*Weather, error) {
+	if city == "" {
+		return nil, fmt.Errorf("%w, city must be provided", ErrBadRequest)
+	}
 	req, err := http.NewRequest(http.MethodGet, sw.WeathersAPIURL+"?q="+city+"&appid="+sw.AccessKey, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error obtaining weathers")

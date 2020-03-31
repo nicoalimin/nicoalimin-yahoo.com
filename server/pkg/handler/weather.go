@@ -14,8 +14,11 @@ type Weather struct {
 
 // GetWeatherByCity returns a weather given a city
 func (wh *Weather) GetWeatherByCity(w http.ResponseWriter, r *http.Request) {
-	city, _ := r.URL.Query()["city"]
-
+	city, ok := r.URL.Query()["city"]
+	if !ok || len(city) < 1 {
+		RespondWithError(w, http.StatusBadRequest, "city must be provided")
+		return
+	}
 	weather, err := wh.Weather.GetWeatherByCity(city[0])
 
 	switch {
