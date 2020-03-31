@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/nicoalimin/weathering/server/pkg/core"
+
 	"github.com/nicoalimin/weathering/server/pkg/handler"
 
 	"github.com/gorilla/mux"
@@ -16,6 +18,7 @@ const (
 func loadRoutes(r *mux.Router) {
 	v1Router := r.PathPrefix(v1Prefix).Subrouter()
 
+	coreWeather := core.ServiceWeather{}
 	handlerHealth := handler.Health{}
 
 	handlerRouter := v1Router.PathPrefix("/health").Subrouter()
