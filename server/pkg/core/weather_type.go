@@ -34,6 +34,7 @@ type OpenWeatherResponse struct {
 }
 
 // CoreWeather contains business logic of the Weather's API
+//go:generate mockgen -destination=./core_weather.mock.go -self_package=github.com/nicoalimin/weathering/server/pkg/core -package core github.com/nicoalimin/weathering/server/pkg/core CoreWeather
 type CoreWeather interface {
 	// GetWeatherByCity obtains a particular city's current weather. Returns a weather
 	// object or an error.
