@@ -18,7 +18,10 @@ const (
 func loadRoutes(r *mux.Router) {
 	v1Router := r.PathPrefix(v1Prefix).Subrouter()
 
-	coreWeather := core.ServiceWeather{}
+	coreWeather := core.ServiceWeather{
+		WeathersAPIURL: "http://api.openweathermap.org/data/2.5/weather",
+		AccessKey:      "df04f1248445346d798760340bd65a74",
+	}
 	handlerHealth := handler.Health{}
 	handlerWeather := handler.Weather{
 		Weather: &coreWeather,
