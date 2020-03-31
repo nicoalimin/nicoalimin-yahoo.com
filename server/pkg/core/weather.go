@@ -12,27 +12,27 @@ var _ CoreWeather = (*ServiceWeather)(nil)
 
 // ServiceWeather contains the core business logic regarding the Weathers API
 type ServiceWeather struct {
-	HttpClient     http.Client
+	HTTPClient     *http.Client
 	WeathersAPIURL string
 	AccessKey      string
 }
 
 // GetWeatherByCity returns a weathers summary for a given city
 func (sw *ServiceWeather) GetWeatherByCity(city string) (*Weather, error) {
-	req, err := http.NewRequest(http.MethodPost, sw.WeathersAPIURL+"?q=Vancouver&appid="+sw.AccessKey, nil)
+	req, err := http.NewRequest(http.MethodGet, sw.WeathersAPIURL+"?q="+city+"&appid="+sw.AccessKey, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error obtaining weathers")
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := sw.HttpClient.Do(req)
+	resp, err := sw.HTTPClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("%w, %v", ErrQueryingExternalWeathersAPI, err)
 	}
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("%w, %s", ErrQueryingExternalWeathersAPI, "open weather server returns a non-200 status code")
 	}
-	defer resp.Body.Close()
 
 	var openWeatherResponse OpenWeatherResponse
 	err = json.NewDecoder(resp.Body).Decode(&openWeatherResponse)
