@@ -9,6 +9,7 @@ import (
 )
 
 var (
+	// This is the sample response when querying the OpenWeather API
 	sampleOpenWeatherResponse = `{
     "coord": {
         "lon": -123.12,
@@ -61,7 +62,6 @@ func Test_OpenWeather_API(t *testing.T) {
 	city := "vancouver"
 
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		fmt.Printf("\nBlah\n")
 		intendedURL := "/weather?q=" + city + "&appid="
 		if strings.HasPrefix(req.URL.String(), intendedURL) {
 			t.Errorf("expected url doesn't match actual. \ngot: %s, \nwant: %s", req.URL.String(), intendedURL)

@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	config conf.Conf
+	config conf.Conf // configuration injected via environment variables
 )
 
 func init() {
@@ -25,22 +25,30 @@ const (
 )
 
 func loadRoutes(r *mux.Router) {
+	// Adds /v1 prefix to routes
 	v1Router := r.PathPrefix(v1Prefix).Subrouter()
 
+	// Created HTTP client to be dependency injected
 	hClient := &http.Client{}
+
+	// Initialize the business logic layer
 	coreWeather := core.ServiceWeather{
 		HTTPClient:     hClient,
 		WeathersAPIURL: "http://api.openweathermap.org/data/2.5/weather",
 		AccessKey:      config.OpenWeatherKey,
 	}
+
+	// Initialize handlers
 	handlerHealth := handler.Health{}
 	handlerWeather := handler.Weather{
 		Weather: &coreWeather,
 	}
 
+	// health route
 	healthRouter := v1Router.PathPrefix("/health").Subrouter()
 	healthRouter.HandleFunc("", handlerHealth.HealthCheck).Methods(http.MethodGet)
 
+	// weather route
 	weatherRouter := v1Router.PathPrefix("/weather").Subrouter()
 	weatherRouter.HandleFunc("", handlerWeather.GetWeatherByCity).Methods(http.MethodGet)
 
