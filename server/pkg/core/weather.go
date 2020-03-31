@@ -33,6 +33,9 @@ func (sw *ServiceWeather) GetWeatherByCity(city string) (*Weather, error) {
 		return nil, fmt.Errorf("%w, %v", ErrQueryingExternalWeathersAPI, err)
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode == http.StatusNotFound {
+		return nil, fmt.Errorf("%w, %s", ErrCityNotFound, "open weather server returns a non-200 status code")
+	}
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("%w, %s", ErrQueryingExternalWeathersAPI, "open weather server returns a non-200 status code")
 	}
