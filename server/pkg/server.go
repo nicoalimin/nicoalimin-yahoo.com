@@ -40,6 +40,10 @@ func loadRoutes(r *mux.Router) {
 
 	// Initialize handlers
 	handlerHealth := handler.Health{}
+	handlerDocs := handler.Docs{
+		DocsPathIndex: "./docs/index.html",
+		DocsPathYaml:  "./docs/swagger.yaml",
+	}
 	handlerWeather := handler.Weather{
 		Weather: &coreWeather,
 	}
@@ -48,13 +52,18 @@ func loadRoutes(r *mux.Router) {
 	healthRouter := v1Router.PathPrefix("/health").Subrouter()
 	healthRouter.HandleFunc("", handlerHealth.HealthCheck).Methods(http.MethodGet)
 
+	// docs routes
+	docsRouter := r.PathPrefix("/docs").Subrouter()
+	docsRouter.HandleFunc("", handlerDocs.GetDocsPage).Methods(http.MethodGet)
+	docsRouter.HandleFunc("/swagger.yaml", handlerDocs.GetSwaggerFile).Methods(http.MethodGet)
+
 	// weather route
 	weatherRouter := v1Router.PathPrefix("/weather").Subrouter()
 	weatherRouter.HandleFunc("", handlerWeather.GetWeatherByCity).Methods(http.MethodGet)
 
 }
 
-// Execute runs a HTTP server that contains the backend for the ea game review app
+// Execute runs a HTTP server that contains the backend for the weathering app
 func Execute() {
 
 	// initialize router

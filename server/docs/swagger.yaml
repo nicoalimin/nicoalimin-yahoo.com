@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Weather API
+  description: |
+    This is the API documentation for obtaining accurate on-demand weather results
+
+tags:
+  - name: Health
+    description: Health check for api
+  - name: Weather
+    description: Weather information live
+
+paths:
+  "/health":
+    get:
+      description: Health check for api
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - error
+                properties:
+                  data:
+                    type: string
+                    example: I am ok, everything is fine, so fine.
+                  error:
+                    $ref: "#/components/schemas/error"
+      tags:
+        - Health
+  "/weather?city=cityName":
+    get:
+      description: Obtaining weather results  per city.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - error
+                properties:
+                  data:
+                    $ref: "#/components/schemas/weather"
+                  error:
+                    $ref: "#/components/schemas/error"
+      tags:
+        - Health
+components:
+  schemas:
+    error:
+      type: object
+      nullable: true
+      properties:
+        code:
+          type: integer
+          nullable: true
+        message:
+          type: string
+    weather:
+      type: object
+      properties:
+        city:
+          type: string
+        temperature:
+          type: string
+        condition:
+          type: string
