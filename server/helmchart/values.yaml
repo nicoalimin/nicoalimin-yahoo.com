@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: niczter/weathering
   tag: latest
-  pullPolicy: always
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
