@@ -53,7 +53,7 @@ func loadRoutes(r *mux.Router) {
 	healthRouter.HandleFunc("", handlerHealth.HealthCheck).Methods(http.MethodGet)
 
 	// docs routes
-	docsRouter := r.PathPrefix("/docs").Subrouter()
+	docsRouter := v1Router.PathPrefix("/docs").Subrouter()
 	docsRouter.HandleFunc("", handlerDocs.GetDocsPage).Methods(http.MethodGet)
 	docsRouter.HandleFunc("/swagger.yaml", handlerDocs.GetSwaggerFile).Methods(http.MethodGet)
 
