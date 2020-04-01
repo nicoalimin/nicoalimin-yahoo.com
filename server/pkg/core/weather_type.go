@@ -17,9 +17,9 @@ var (
 // Weather contains a location and the current summary of the weather
 // TODO: Improve Weather so it returns valuable weather info too (sunrise, humidity, etc)
 type Weather struct {
-	City        string // location of the desired weather check
-	Temperature string // temperature of a given location
-	Condition   string // whether given location is sunny, rainy, cloudy, etc.
+	City        string `json:"city"`        // location of the desired weather check
+	Temperature string `json:"temperature"` // temperature of a given location
+	Condition   string `json:"condition"`   // whether given location is sunny, rainy, cloudy, etc.
 }
 
 // OpenWeatherResponse is the external Weathers API that is used to query weathers by city
