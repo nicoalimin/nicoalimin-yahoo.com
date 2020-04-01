@@ -1,26 +1,47 @@
 # Weathering App
 
 ## Notes
-*Please do not supply your name or email address in this document. We're doing our best to remain unbiased.*
+
 ### Date
-The date you're submitting this.
+March 31, 2020
+
 ### Location of deployed application
-If applicable, please provide the url where we can find and interact with your running application.
+http://ac66454e95b994d5ea078ab72cef6dd7-1725874665.us-east-1.elb.amazonaws.com/docs
+http://ac66454e95b994d5ea078ab72cef6dd7-1725874665.us-east-1.elb.amazonaws.com/v1/weather?city=vancouver
+
 ### Time spent
-How much time did you spend on the assignment? Normally, this is expressed in hours.
+4 hours
+
 ### Assumptions made
-Use this section to tell us about any assumptions that you made when creating your solution.
+- Users only cares about temperature and condition (sunny, cloudy, etc.)
+- Users can only query by a valid city.
+- Users requested the data in Fahrenheit
+- We have unlimited usage of openweathermap.org's API (I signed up for a free token, not sure how long it would last)
+- Endpoint isn't fully RESTful standard. It should be `/weathers` (But I made it `/weather` to match the description)
+
 ### Shortcuts/Compromises made
-If applicable. Did you do something that you feel could have been done better in a real-world application? Please
-let us know.
+- City validation relies on OpenWeather
+
 ### Stretch goals attempted
-If applicable, use this area to tell us what stretch goals you attempted. What went well? What do you wish you
-could have done better? If you didn't attempt any of the stretch goals, feel free to let us know why.
+- I used openweathermap.org's API to query city-based weather in real-time. Their API is straightforward so it takes no time to integrate
+- I deployed it live to AWS. I have an EKS cluster available, so deploying to Kubernetes using Helm takes no time at all
+- I added a docs section just so that consumers of this API onboard themselves
+
 ### Instructions to run assignment locally
-If applicable, please provide us with the necessary instructions to run your solution.
+With Docker and Docker Compose installed (Docker >= `v19.03.5`. docker-compose >= `v1.24.1` recommended):
+- `docker-compose up`
+- `curl localhost:3031/v1/docs`
+
+Without Docker (Make >= `3.81`. Go `1.13.4` recommended):
+- `cd server`
+- `go get`
+- `make dev`
+- `curl localhost:3031/v1/docs`
+
 ### What did you not include in your solution that you want us to know about?
-Were you short on time and not able to include something that you want us to know
-about? Please list it here so that we know that you considered it.
+I was experimenting with Devops, where I created a Kubernetes Cluster to deploy my projects.
+I deployed it using EKS on AWS.
+
 ### Other information about your submission that you feel it's important that we know if applicable.
 ### Your feedback on this technical challenge
-Have feedback for how we could make this assignment better? Please let us know.
+The task at hand is simple, it encourages developers to expand on this app in a way of their choosing/creativity
