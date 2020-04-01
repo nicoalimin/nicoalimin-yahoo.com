@@ -12,7 +12,7 @@ tags:
     description: Weather information live
 
 paths:
-  "v1/health":
+  "/v1/health":
     get:
       description: Health check for api
       responses:
@@ -32,7 +32,7 @@ paths:
                     $ref: "#/components/schemas/error"
       tags:
         - Health
-  "v1/weather?city=cityName":
+  "/v1/weather?city=cityName":
     get:
       description: Obtaining weather results  per city.
       responses:
