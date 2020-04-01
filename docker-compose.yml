@@ -1,0 +1,7 @@
+version: "3.7"
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "3031:80"
