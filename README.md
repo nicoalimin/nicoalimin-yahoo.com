@@ -6,8 +6,8 @@
 March 31, 2020
 
 ### Location of deployed application
-http://ac66454e95b994d5ea078ab72cef6dd7-1725874665.us-east-1.elb.amazonaws.com/docs
-http://ac66454e95b994d5ea078ab72cef6dd7-1725874665.us-east-1.elb.amazonaws.com/v1/weather?city=vancouver
+Taken down: http://ac66454e95b994d5ea078ab72cef6dd7-1725874665.us-east-1.elb.amazonaws.com/docs
+Taken down: http://ac66454e95b994d5ea078ab72cef6dd7-1725874665.us-east-1.elb.amazonaws.com/v1/weather?city=vancouver
 
 ### Time spent
 4 hours
